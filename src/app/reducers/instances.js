@@ -42,7 +42,7 @@ function updateState(state, request, id, serialize) {
 
   let newState;
   const liftedState = state[id] || state.default;
-  const action = request.action && parseJSON(request.action) || {};
+  const action = request.action && parseJSON(request.action, serialize) || {};
 
   switch (request.type) {
     case 'INIT':
@@ -195,7 +195,7 @@ function removeState(state, connectionId) {
   };
 }
 
-function init({ type, action, name, libConfig = {} }, connectionId, current) {
+function init({ type, action, name, libConfig = { serialize: true } }, connectionId, current) {
   let lib;
   let actionCreators;
   let creators = libConfig.actionCreators || action;
